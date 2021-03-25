@@ -11,7 +11,7 @@ import com.maxsavteam.pressurenotes.data.RecordsManager;
 import com.maxsavteam.pressurenotes.utils.RequestCodesConstants;
 import com.maxsavteam.pressurenotes.utils.SharedConstants;
 
-public class LaunchActivity extends AppCompatActivity {
+public class LaunchActivity extends ThemeActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -24,6 +24,7 @@ public class LaunchActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate( savedInstanceState );
+		setContentView( R.layout.activity_main );
 
 		SharedConstants.appFilesDir = getExternalFilesDir( null ).getPath();
 

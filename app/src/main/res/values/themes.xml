@@ -6,5 +6,21 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="textColor">@color/black</item>
+        <item name="windowBackgroundColor">@color/white</item>
+        <item name="android:windowBackground">?windowBackgroundColor</item>
+        <item name="cardViewBackgroundColor">@color/white</item>
+        <item name="accentTextColor">@color/colorAccent</item>
     </style>
+
+    <style name="Theme.PressureNotes.Dark">
+        <item name="textColor">@color/white</item>
+        <item name="windowBackgroundColor">@color/black</item>
+        <item name="cardViewBackgroundColor">@color/gray</item>
+
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+
+        <item name="accentTextColor">@color/accentTextColorLight</item>
+    </style>
+
 </resources>

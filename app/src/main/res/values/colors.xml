@@ -10,7 +10,9 @@
 
     <color name="colorPrimary">#4361ee</color>
     <color name="colorPrimaryDark">#3f37c9</color>
-    <color name="colorAccent">#3a0ca3</color>
+    <color name="colorAccent">#023e8a</color>
+
+    <color name="accentTextColorLight">#4361ee</color>
 
     <color name="light_green">#4CAF50</color>
     <color name="green">#166F1C</color>
@@ -18,4 +20,6 @@
     <color name="orange">#F57F17</color>
     <color name="red">#FF0000</color>
     <color name="dark_red">#BC0000</color>
+
+    <color name="gray">#262626</color>
 </resources>

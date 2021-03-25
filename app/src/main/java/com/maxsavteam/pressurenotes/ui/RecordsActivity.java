@@ -17,7 +17,7 @@ import com.maxsavteam.pressurenotes.utils.RequestCodesConstants;
 
 import java.util.ArrayList;
 
-public class RecordsActivity extends AppCompatActivity {
+public class RecordsActivity extends ThemeActivity {
 
 	private RecordsListAdapter mRecordsListAdapter;
 

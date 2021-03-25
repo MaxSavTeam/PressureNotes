@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="textColor" format="color" />
+    <attr name="accentTextColor" format="color" />
+    <attr name="windowBackgroundColor" format="color" />
+    <attr name="cardViewBackgroundColor" format="color" />
 </resources>

@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class ChartActivity extends AppCompatActivity {
+public class ChartActivity extends ThemeActivity {
 
 	private static final String TAG = App.TAG + " ChartActivity";
 	private Map<Integer, Record> mPositions = new HashMap<>();
@@ -85,9 +85,13 @@ public class ChartActivity extends AppCompatActivity {
 
 		mGraphViewViewport.setXAxisBoundsManual( true );
 		mGraphViewViewport.setYAxisBoundsManual( true );
+		mGraphViewViewport.setBorderColor( super.textColor );
 
 		GridLabelRenderer renderer = mGraphView.getGridLabelRenderer();
 		renderer.setLabelFormatter( mLabelFormatter );
+		renderer.setGridColor( textColor );
+		renderer.setHorizontalLabelsColor( textColor );
+		renderer.setVerticalLabelsColor( textColor );
 	}
 
 	private void initializeModeSpinner() {
@@ -97,8 +101,8 @@ public class ChartActivity extends AppCompatActivity {
 				getString( R.string.week ),
 				getString( R.string.month )
 		};
-		ArrayAdapter<String> adapter = new ArrayAdapter<>( this, android.R.layout.simple_spinner_item, data );
-		adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+		ArrayAdapter<String> adapter = new ArrayAdapter<>( this, R.layout.spinner_item, data );
+		adapter.setDropDownViewResource( R.layout.spinner_dropdown_item );
 
 		spinner.setAdapter( adapter );
 		spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
@@ -188,8 +192,8 @@ public class ChartActivity extends AppCompatActivity {
 			data[ i ] = periods.get( i ).label;
 
 		Spinner spinner = findViewById( R.id.spinner_period );
-		ArrayAdapter<String> adapter = new ArrayAdapter<>( this, android.R.layout.simple_spinner_item, data );
-		adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+		ArrayAdapter<String> adapter = new ArrayAdapter<>( this, R.layout.spinner_item, data );
+		adapter.setDropDownViewResource( R.layout.spinner_dropdown_item );
 		spinner.setAdapter( adapter );
 		ArrayList<Period> finalPeriods = periods;
 		spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
@@ -304,7 +308,9 @@ public class ChartActivity extends AppCompatActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder( this );
 		builder
 				.setView( view )
-				.setPositiveButton( R.string.close, (dialog, which)->dialog.cancel() )
-				.show();
+				.setPositiveButton( R.string.close, (dialog, which)->dialog.cancel() );
+		AlertDialog dialog = builder.create();
+		dialog.getWindow().getDecorView().setBackgroundColor( cardViewBackgroundColor );
+		dialog.show();
 	};
 }

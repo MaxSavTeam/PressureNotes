@@ -20,7 +20,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddRecordActivity extends AppCompatActivity {
+public class AddRecordActivity extends ThemeActivity {
 
 	private long selectedTime;
 
