@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Pressure Notes</string>
+
+    <string name="desc_add_record">add record</string>
+    <string name="add_record">Add record</string>
+
+    <string name="sys_label" translatable="false">SYS:</string>
+    <string name="dia_label" translatable="false">DIA:</string>
+
+    <string name="pulse_label">Pulse:</string>
+
+    <string name="systolic_pressure">Systolic pressure</string>
+    <string name="diastolic_pressure">Diastolic pressure</string>
+    <string name="pulse">Pulse</string>
+
+    <string name="save">Save</string>
+
+    <string name="invalid">Invalid</string>
+
+    <string name="should_not_be_empty">Should not be empty</string>
+    <string name="too_big_value">Too big value</string>
+</resources>

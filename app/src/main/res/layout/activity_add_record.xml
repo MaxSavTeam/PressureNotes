@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
+    tools:context=".ui.AddRecordActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
+
+        <com.maxsavteam.pressurenotes.ui.widget.InputEditText
+            android:id="@+id/sys_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:backgroundTint="@color/colorAccent"
+            android:hint="@string/systolic_pressure" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
+
+        <com.maxsavteam.pressurenotes.ui.widget.InputEditText
+            android:id="@+id/dia_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:backgroundTint="@color/colorAccent"
+            android:hint="@string/diastolic_pressure" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
+
+        <com.maxsavteam.pressurenotes.ui.widget.InputEditText
+            android:id="@+id/pulse_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:backgroundTint="@color/colorAccent"
+            android:hint="@string/pulse" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_measure_time"
+        android:textSize="20sp"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="@string/save" />
+
+</LinearLayout>
