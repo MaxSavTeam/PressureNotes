@@ -29,4 +29,12 @@
 
     <string name="delete">Delete</string>
     <string name="delete_record">Delete this record?</string>
+
+    <string name="select_theme">Select theme</string>
+
+    <string-array name="theme_variants">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>As in the system</item>
+    </string-array>
 </resources>

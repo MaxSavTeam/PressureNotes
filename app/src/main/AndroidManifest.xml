@@ -20,15 +20,14 @@
             android:label="@string/add_record" />
         <activity
             android:name=".ui.RecordsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.LaunchActivity"
-            android:exported="true" >
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
