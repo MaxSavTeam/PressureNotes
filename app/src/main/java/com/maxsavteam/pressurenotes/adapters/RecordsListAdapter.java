@@ -9,24 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxsavteam.pressurenotes.App;
 import com.maxsavteam.pressurenotes.R;
-import com.maxsavteam.pressurenotes.data.DiffUtilCallback;
 import com.maxsavteam.pressurenotes.data.Record;
 import com.maxsavteam.pressurenotes.utils.ColorsLevelResolver;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import team.maxsav.logger.Logger;
 
 public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.ViewHolder> {
 
