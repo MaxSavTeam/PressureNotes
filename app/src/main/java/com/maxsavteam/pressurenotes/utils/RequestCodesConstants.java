@@ -4,5 +4,6 @@ public class RequestCodesConstants {
 
 	public static final int RECORDS_ACTIVITY = 1;
 	public static final int ADD_RECORD = 2;
+	public static final int VIEW_CHART = 3;
 
 }

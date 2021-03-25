@@ -12,9 +12,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import team.maxsav.logger.Logger;
 
@@ -26,6 +26,8 @@ public class RecordsManager {
 	private static final String EMPTY_JSON = "{\"records\":[]}";
 
 	private final ArrayList<Record> mRecords = new ArrayList<>();
+
+	private final ManagerByPeriod mManagerByPeriod;
 
 	public static RecordsManager getInstance() {
 		if ( instance == null ) {
@@ -61,7 +63,7 @@ public class RecordsManager {
 			Logger.i( TAG, "RecordsManager: " + e );
 		}
 		sort();
-		Logger.i( TAG, "RecordsManager: count=" + mRecords.size() );
+		mManagerByPeriod = new ManagerByPeriod( mRecords );
 	}
 
 	private String readDataFromFile() throws IOException {
@@ -110,8 +112,12 @@ public class RecordsManager {
 		} );
 	}
 
-	public ArrayList<Record> getRecords() {
-		return new ArrayList<>( mRecords );
+	public static ArrayList<Record> getRecords() {
+		return new ArrayList<>( getInstance().mRecords );
+	}
+
+	public static int getRecordsCount(){
+		return getInstance().mRecords.size();
 	}
 
 	private void writeDataToFile(String data) throws IOException {
@@ -123,6 +129,38 @@ public class RecordsManager {
 		fos.write( data.getBytes( StandardCharsets.UTF_8 ) );
 		fos.flush();
 		fos.close();
+	}
+
+	public static ManagerByPeriod getManagerByPeriod(){
+		return getInstance().mManagerByPeriod;
+	}
+
+	public static class ManagerByPeriod {
+		private final ArrayList<Record> mRecords;
+
+		private ManagerByPeriod(ArrayList<Record> records) {
+			mRecords = records;
+		}
+
+		public boolean isAnyRecordAtThisPeriodExists(long from, long to){
+			for(Record record : mRecords){
+				long time = record.getMeasureTime();
+				if(from <= time && time < to)
+					return true;
+			}
+			return false;
+		}
+
+		public ArrayList<Record> getAllRecordsAtPeriod(long from, long to){
+			ArrayList<Record> records = new ArrayList<>();
+			for(Record record : mRecords){
+				long time = record.getMeasureTime();
+				if(from <= time && time < to)
+					records.add( record );
+			}
+			return records;
+		}
+
 	}
 
 }

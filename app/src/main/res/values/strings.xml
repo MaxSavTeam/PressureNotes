@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Pressure Notes</string>
 
-    <string name="desc_add_record">add record</string>
     <string name="add_record">Add record</string>
+    <string name="view_chart">View chart</string>
 
     <string name="sys_label" translatable="false">SYS:</string>
     <string name="dia_label" translatable="false">DIA:</string>
@@ -19,4 +19,11 @@
 
     <string name="should_not_be_empty">Should not be empty</string>
     <string name="too_big_value">Too big value</string>
+
+    <string name="close">Close</string>
+
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="all">All</string>
 </resources>

@@ -25,12 +25,10 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 
 	private static final String TAG = App.TAG + " RecordsListAdapter";
 	private ArrayList<Record> mRecords;
-	private final Locale mLocale;
 	private final Context mContext;
 
 	public RecordsListAdapter(Context context, ArrayList<Record> records) {
 		mRecords = records;
-		mLocale = context.getResources().getConfiguration().getLocales().get( 0 );
 		mContext = context;
 	}
 
@@ -40,17 +38,15 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		return new ViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.record_item, parent, false ) );
 	}
 
-	@Override
-	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-		Record record = mRecords.get( position );
-		holder.sysValue.setText( String.format( mLocale, "%d", record.getSystolicPressure() ) );
-		holder.diaValue.setText( String.format( mLocale, "%d", record.getDiastolicPressure() ) );
-		holder.pulseValue.setText( String.format( mLocale, "%d", record.getPulse() ) );
+	public static void fillViewHolder(ViewHolder holder, Record record, Context context){
+		holder.sysValue.setText( String.format( Locale.ROOT, "%d", record.getSystolicPressure() ) );
+		holder.diaValue.setText( String.format( Locale.ROOT, "%d", record.getDiastolicPressure() ) );
+		holder.pulseValue.setText( String.format( Locale.ROOT, "%d", record.getPulse() ) );
 
 		holder.time.setText( DateFormat.getDateTimeInstance().format( new Date( record.getMeasureTime() ) ) );
 
-		holder.sysIndicator.setBackgroundColor( mContext.getColor( ColorsLevelResolver.getColorForSys( record.getSystolicPressure() ) ) );
-		holder.diaIndicator.setBackgroundColor( mContext.getColor( ColorsLevelResolver.getColorForDia( record.getDiastolicPressure() ) ) );
+		holder.sysIndicator.setBackgroundColor( context.getColor( ColorsLevelResolver.getColorForSys( record.getSystolicPressure() ) ) );
+		holder.diaIndicator.setBackgroundColor( context.getColor( ColorsLevelResolver.getColorForDia( record.getDiastolicPressure() ) ) );
 
 		holder.itemView.getViewTreeObserver().addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
@@ -61,6 +57,12 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 				holder.diaIndicator.setX( maxX );
 			}
 		} );
+	}
+
+	@Override
+	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+		Record record = mRecords.get( position );
+		fillViewHolder( holder, record, mContext );
 	}
 
 	public void update(ArrayList<Record> newData) {

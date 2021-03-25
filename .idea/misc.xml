@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudio/PressureNotes/app/src/main/res/layout/activity_add_record.xml" value="0.26132246376811596" />
+        <entry key="..\:/AndroidStudio/PressureNotes/app/src/main/res/layout/activity_chart.xml" value="0.26132246376811596" />
+        <entry key="..\:/AndroidStudio/PressureNotes/app/src/main/res/layout/activity_graph.xml" value="0.26132246376811596" />
         <entry key="..\:/AndroidStudio/PressureNotes/app/src/main/res/layout/activity_main.xml" value="0.26766304347826086" />
         <entry key="..\:/AndroidStudio/PressureNotes/app/src/main/res/layout/activity_records.xml" value="0.26132246376811596" />
         <entry key="..\:/AndroidStudio/PressureNotes/app/src/main/res/layout/record_item.xml" value="0.26132246376811596" />

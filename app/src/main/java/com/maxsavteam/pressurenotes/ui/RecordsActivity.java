@@ -23,8 +23,8 @@ public class RecordsActivity extends AppCompatActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-		if(requestCode == RequestCodesConstants.ADD_RECORD && resultCode == RESULT_OK) {
-			mRecordsListAdapter.update( RecordsManager.getInstance().getRecords() );
+		if ( requestCode == RequestCodesConstants.ADD_RECORD && resultCode == RESULT_OK ) {
+			mRecordsListAdapter.update( RecordsManager.getRecords() );
 		}
 		super.onActivityResult( requestCode, resultCode, data );
 	}
@@ -37,12 +37,16 @@ public class RecordsActivity extends AppCompatActivity {
 		setupRecyclerView();
 
 		findViewById( R.id.fab_add_record ).setOnClickListener( v->{
-			startActivityForResult( new Intent(this, AddRecordActivity.class), RequestCodesConstants.ADD_RECORD );
+			startActivityForResult( new Intent( this, AddRecordActivity.class ), RequestCodesConstants.ADD_RECORD );
+		} );
+
+		findViewById( R.id.fab_view_chart ).setOnClickListener( v->{
+			startActivityForResult( new Intent( this, ChartActivity.class ), RequestCodesConstants.VIEW_CHART );
 		} );
 	}
 
-	private void setupRecyclerView(){
-		ArrayList<Record> records = RecordsManager.getInstance().getRecords();
+	private void setupRecyclerView() {
+		ArrayList<Record> records = RecordsManager.getRecords();
 		RecyclerView recyclerView = findViewById( R.id.records_recycler_view );
 
 		LinearLayoutManager manager = new LinearLayoutManager( this );
