@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxsavteam.pressurenotes.App;
 import com.maxsavteam.pressurenotes.R;
 import com.maxsavteam.pressurenotes.data.Record;
+import com.maxsavteam.pressurenotes.data.RecordsManager;
 import com.maxsavteam.pressurenotes.utils.ColorsLevelResolver;
 
 import java.text.DateFormat;
@@ -38,7 +40,7 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		return new ViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.record_item, parent, false ) );
 	}
 
-	public static void fillViewHolder(ViewHolder holder, Record record, Context context){
+	public static void fillViewHolder(ViewHolder holder, Record record, Context context) {
 		holder.sysValue.setText( String.format( Locale.ROOT, "%d", record.getSystolicPressure() ) );
 		holder.diaValue.setText( String.format( Locale.ROOT, "%d", record.getDiastolicPressure() ) );
 		holder.pulseValue.setText( String.format( Locale.ROOT, "%d", record.getPulse() ) );
@@ -63,6 +65,22 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 		Record record = mRecords.get( position );
 		fillViewHolder( holder, record, mContext );
+
+		holder.itemView.setOnLongClickListener( v->{
+			AlertDialog.Builder builder = new AlertDialog.Builder( mContext );
+			builder
+					.setTitle( R.string.delete )
+					.setMessage( R.string.delete_record )
+					.setNegativeButton( R.string.delete, ( (dialog, which)->{
+						RecordsManager.getInstance()
+								.remove( position )
+								.save();
+						mRecords.remove( position );
+						notifyItemRemoved( position );
+					} ) )
+					.show();
+			return true;
+		} );
 	}
 
 	public void update(ArrayList<Record> newData) {

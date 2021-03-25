@@ -84,6 +84,11 @@ public class RecordsManager {
 		return this;
 	}
 
+	public RecordsManager remove(int index){
+		mRecords.remove( index );
+		return this;
+	}
+
 	public void save() {
 		String data;
 		try {
