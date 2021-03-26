@@ -12,6 +12,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/gray"
         android:paddingStart="24dp"
         android:paddingEnd="24dp">
 
@@ -20,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
-            android:backgroundTint="@color/colorAccent"
+            android:textColor="?textColor"
+            android:backgroundTint="?accentTextColor"
             android:hint="@string/systolic_pressure" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -29,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColorHint="@color/gray"
         android:paddingStart="24dp"
         android:paddingEnd="24dp">
 
@@ -37,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
-            android:backgroundTint="@color/colorAccent"
+            android:textColor="?textColor"
+            android:backgroundTint="?accentTextColor"
             android:hint="@string/diastolic_pressure" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -46,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColorHint="@color/gray"
         android:paddingStart="24dp"
         android:paddingEnd="24dp">
 
@@ -54,7 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
-            android:backgroundTint="@color/colorAccent"
+            android:textColor="?textColor"
+            android:backgroundTint="?accentTextColor"
             android:hint="@string/pulse" />
 
     </com.google.android.material.textfield.TextInputLayout>
