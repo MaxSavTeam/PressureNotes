@@ -37,4 +37,6 @@
         <item>Dark</item>
         <item>As in the system</item>
     </string-array>
+
+    <string name="there_is_no_records">There is no records</string>
 </resources>

@@ -14,6 +14,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.maxsavteam.pressurenotes.R;
 import com.maxsavteam.pressurenotes.adapters.RecordsListAdapter;
@@ -31,6 +33,7 @@ public class RecordsActivity extends ThemeActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
 		if ( requestCode == RequestCodesConstants.ADD_RECORD && resultCode == RESULT_OK ) {
+			findViewById( R.id.noRecordsTextView ).setVisibility( View.GONE );
 			mRecordsListAdapter.update( RecordsManager.getRecords() );
 		}
 		super.onActivityResult( requestCode, resultCode, data );
@@ -81,19 +84,34 @@ public class RecordsActivity extends ThemeActivity {
 		} );
 
 		findViewById( R.id.fab_view_chart ).setOnClickListener( v->{
-			startActivityForResult( new Intent( this, ChartActivity.class ), RequestCodesConstants.VIEW_CHART );
+			if ( RecordsManager.getRecordsCount() == 0 ) {
+				Toast.makeText( this, R.string.there_is_no_records, Toast.LENGTH_SHORT ).show();
+			} else {
+				startActivityForResult( new Intent( this, ChartActivity.class ), RequestCodesConstants.VIEW_CHART );
+			}
 		} );
 	}
 
+	private final RecordsListAdapter.RecordsListAdapterCallback mAdapterCallback = new RecordsListAdapter.RecordsListAdapterCallback() {
+		@Override
+		public void onItemRemoved() {
+			if(RecordsManager.getRecordsCount() == 0)
+				findViewById( R.id.noRecordsTextView ).setVisibility( View.VISIBLE );
+		}
+	};
+
 	private void setupRecyclerView() {
 		ArrayList<Record> records = RecordsManager.getRecords();
+		if(records.size() > 0){
+			findViewById( R.id.noRecordsTextView ).setVisibility( View.GONE );
+		}
 		RecyclerView recyclerView = findViewById( R.id.records_recycler_view );
 
 		LinearLayoutManager manager = new LinearLayoutManager( this );
 		manager.setOrientation( RecyclerView.VERTICAL );
 		recyclerView.setLayoutManager( manager );
 
-		mRecordsListAdapter = new RecordsListAdapter( this, records );
+		mRecordsListAdapter = new RecordsListAdapter( this, records, mAdapterCallback );
 		recyclerView.setAdapter( mRecordsListAdapter );
 	}
 }

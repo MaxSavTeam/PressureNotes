@@ -28,10 +28,16 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 	private static final String TAG = App.TAG + " RecordsListAdapter";
 	private ArrayList<Record> mRecords;
 	private final Context mContext;
+	private final RecordsListAdapterCallback mAdapterCallback;
 
-	public RecordsListAdapter(Context context, ArrayList<Record> records) {
+	public interface RecordsListAdapterCallback{
+		void onItemRemoved();
+	}
+
+	public RecordsListAdapter(Context context, ArrayList<Record> records, RecordsListAdapterCallback callback) {
 		mRecords = records;
 		mContext = context;
+		mAdapterCallback = callback;
 	}
 
 	@NonNull
@@ -77,6 +83,7 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 								.save();
 						mRecords.remove( position );
 						notifyItemRemoved( position );
+						mAdapterCallback.onItemRemoved();
 					} ) )
 					.show();
 			return true;

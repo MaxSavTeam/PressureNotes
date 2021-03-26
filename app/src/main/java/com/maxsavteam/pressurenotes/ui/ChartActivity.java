@@ -262,7 +262,7 @@ public class ChartActivity extends ThemeActivity {
 			mGraphViewViewport.setMaxX( next );
 		}
 
-		int minY = Math.min( minDia, minSys ) - 10;
+		int minY = Math.max( 0, Math.min( minDia, minSys ) - 10 );
 		int maxY = Math.max( maxDia, maxSys ) + 10;
 		mGraphViewViewport.setMinY( minY );
 		mGraphViewViewport.setMaxY( maxY );
