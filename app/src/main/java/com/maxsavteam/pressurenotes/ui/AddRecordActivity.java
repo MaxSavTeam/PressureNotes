@@ -1,15 +1,14 @@
 package com.maxsavteam.pressurenotes.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 
 import com.maxsavteam.pressurenotes.R;
 import com.maxsavteam.pressurenotes.data.Record;
