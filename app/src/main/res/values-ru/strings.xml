@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Заметки о давлении</string>
+
+    <string name="add_record">Добавить запись</string>
+    <string name="view_chart">Статистика</string>
+
+    <string name="sys_label" translatable="false">SYS:</string>
+    <string name="dia_label" translatable="false">DIA:</string>
+
+    <string name="pulse_label">Пульс:</string>
+
+    <string name="systolic_pressure">Систолическое давление</string>
+    <string name="diastolic_pressure">Диастолическое давление</string>
+    <string name="pulse">Пульс</string>
+
+    <string name="save">Сохранить</string>
+
+    <string name="invalid">Invalid</string>
+
+    <string name="should_not_be_empty">Не должно быть пустым</string>
+    <string name="too_big_value">Слишком большое значение</string>
+
+    <string name="close">Закрыть</string>
+
+    <string name="day">День</string>
+    <string name="week">Неделя</string>
+    <string name="month">Месяц</string>
+    <string name="all">За всё время</string>
+
+    <string name="delete">Удалить</string>
+    <string name="delete_record">Действительно удалить эту запись?</string>
+
+    <string name="select_theme">Выбрать тему</string>
+
+    <string-array name="theme_variants">
+        <item>Светлая</item>
+        <item>Тёмная</item>
+        <item>Как в системе</item>
+    </string-array>
+
+    <string name="there_is_no_records">Список пуст</string>
+</resources>
