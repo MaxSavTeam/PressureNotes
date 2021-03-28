@@ -34,7 +34,7 @@ android {
 dependencies {
 
     implementation 'com.github.MaxSavTeam:ExceptionHandler-Library:1.0'
-    implementation 'com.github.MaxSavTeam:logger-library:0.5.3'
+    implementation 'com.github.MaxSavTeam:logger-library:1.0.0'
 
     implementation 'com.jjoe64:graphview:4.2.2'
 
