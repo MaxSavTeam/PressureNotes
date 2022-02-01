@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635945426687:android:0169ecf62d967d43a1f6ca",
+        "android_client_info": {
+          "package_name": "com.maxsavteam.pressurenotes.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635945426687-ag2goahdgh2kog09n0fs669116bndnj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxWJGgpNhLHNzqY7yIF04P4iayEFS9Af4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635945426687-ag2goahdgh2kog09n0fs669116bndnj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

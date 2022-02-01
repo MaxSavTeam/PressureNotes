@@ -134,6 +134,10 @@ public class ChartActivity extends ThemeActivity {
 		while ( minTime <= startCalendar.getTimeInMillis() ) {
 			long to = startCalendar.getTimeInMillis();
 			startCalendar.roll( stepField, -1 );
+			if(to < startCalendar.getTimeInMillis()){
+				// this means that there was a jump at the end of CURRENT year
+				startCalendar.roll( Calendar.YEAR, -1 );
+			}
 			long from = startCalendar.getTimeInMillis() + 1000; // add one second to transfer to the next day
 			from = Math.max( from, minTime );
 
