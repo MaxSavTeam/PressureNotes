@@ -130,6 +130,7 @@ public class ChartActivity extends ThemeActivity {
 	}
 
 	private ArrayList<Period> getPeriods(Calendar startCalendar, int stepField, long minTime) {
+		Locale locale = getResources().getConfiguration().getLocales().get( 0 );
 		ArrayList<Period> periods = new ArrayList<>();
 		while ( minTime <= startCalendar.getTimeInMillis() ) {
 			long to = startCalendar.getTimeInMillis();
@@ -142,7 +143,7 @@ public class ChartActivity extends ThemeActivity {
 			from = Math.max( from, minTime );
 
 			if ( RecordsManager.getManagerByPeriod().isAnyRecordAtThisPeriodExists( from, to ) ) {
-				SimpleDateFormat format = new SimpleDateFormat( "dd MMM.", Locale.ROOT );
+				SimpleDateFormat format = new SimpleDateFormat( "dd MMM", locale );
 				String formattedFrom = format.format( new Date( from ) );
 				String formattedTo = format.format( new Date( to ) );
 				String label;
