@@ -22,4 +22,5 @@
     <color name="dark_red">#BC0000</color>
 
     <color name="gray">#262626</color>
+    <color name="color_hint">#7F7F7F</color>
 </resources>

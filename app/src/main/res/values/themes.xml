@@ -10,6 +10,8 @@
         <item name="android:windowBackground">?windowBackgroundColor</item>
         <item name="cardViewBackgroundColor">@color/white</item>
         <item name="accentTextColor">@color/colorAccent</item>
+
+        <item name="textInputColorHint">@color/color_hint</item>
     </style>
 
     <style name="Theme.PressureNotes.Dark">

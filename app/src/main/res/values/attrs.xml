@@ -4,4 +4,5 @@
     <attr name="accentTextColor" format="color" />
     <attr name="windowBackgroundColor" format="color" />
     <attr name="cardViewBackgroundColor" format="color" />
+    <attr name="textInputColorHint" format="color" />
 </resources>
