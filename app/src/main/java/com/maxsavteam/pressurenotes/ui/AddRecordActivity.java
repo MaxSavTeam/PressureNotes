@@ -2,6 +2,7 @@ package com.maxsavteam.pressurenotes.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.widget.TextViewCompat;
 
 import com.maxsavteam.pressurenotes.R;
 import com.maxsavteam.pressurenotes.data.Record;
@@ -23,33 +25,40 @@ public class AddRecordActivity extends ThemeActivity {
 
 	private long selectedTime;
 
-	private Pair<Boolean, String> validateSys(String s){
-		if(s.isEmpty())
+	private boolean isArrhythmia = false;
+
+	private Pair<Boolean, String> validateSys(String s) {
+		if ( s.isEmpty() ) {
 			return new Pair<>( false, getString( R.string.should_not_be_empty ) );
+		}
 		int i = Integer.parseInt( s );
-		if(i > 200)
+		if ( i > 200 ) {
 			return new Pair<>( false, getString( R.string.too_big_value ) );
+		}
 		return new Pair<>( true, null );
 	}
 
-	private Pair<Boolean, String> validateDia(String s){
-		if(s.isEmpty())
+	private Pair<Boolean, String> validateDia(String s) {
+		if ( s.isEmpty() ) {
 			return new Pair<>( false, getString( R.string.should_not_be_empty ) );
+		}
 		int i = Integer.parseInt( s );
-		if(i > 130)
+		if ( i > 130 ) {
 			return new Pair<>( false, getString( R.string.too_big_value ) );
+		}
 		return new Pair<>( true, null );
 	}
 
-	private Pair<Boolean, String> validatePulse(String s){
-		if(s.isEmpty())
+	private Pair<Boolean, String> validatePulse(String s) {
+		if ( s.isEmpty() ) {
 			return new Pair<>( false, getString( R.string.should_not_be_empty ) );
+		}
 		return new Pair<>( true, null );
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-		if(item.getItemId() == android.R.id.home){
+		if ( item.getItemId() == android.R.id.home ) {
 			onBackPressed();
 		}
 		return super.onOptionsItemSelected( item );
@@ -67,14 +76,33 @@ public class AddRecordActivity extends ThemeActivity {
 		setContentView( R.layout.activity_add_record );
 
 		ActionBar bar = getSupportActionBar();
-		if(bar != null)
+		if ( bar != null ) {
 			bar.setDisplayHomeAsUpEnabled( true );
+		}
 
 		selectedTime = System.currentTimeMillis();
 		setButtonText( selectedTime );
 
+		Button btnArrhythmia = findViewById( R.id.btn_arrhythmia );
+		btnArrhythmia.setOnClickListener( v->{
+			isArrhythmia = !isArrhythmia;
+			if ( isArrhythmia ) {
+				btnArrhythmia.setTextColor( getColor( R.color.red ) );
+				TextViewCompat.setCompoundDrawableTintList(
+						btnArrhythmia,
+						ColorStateList.valueOf( getColor( R.color.red ) )
+				);
+			}else{
+				btnArrhythmia.setTextColor( getColor( R.color.light_gray ) );
+				TextViewCompat.setCompoundDrawableTintList(
+						btnArrhythmia,
+						ColorStateList.valueOf( getColor( R.color.light_gray ) )
+				);
+			}
+		} );
+
 		Button btn = findViewById( R.id.btn_save );
-		btn.setOnClickListener( v -> {
+		btn.setOnClickListener( v->{
 			InputEditText sysEditText = findViewById( R.id.sys_edit_text );
 			InputEditText diaEditText = findViewById( R.id.dia_edit_text );
 			InputEditText pulseEditText = findViewById( R.id.pulse_edit_text );
@@ -82,30 +110,30 @@ public class AddRecordActivity extends ThemeActivity {
 
 			String s = sysEditText.getText().toString();
 			Pair<Boolean, String> p = validateSys( s );
-			if( !p.first ){
+			if ( !p.first ) {
 				sysEditText.setError( p.second );
 				isValid = false;
 			}
 
 			s = diaEditText.getText().toString();
 			p = validateDia( s );
-			if(!p.first){
+			if ( !p.first ) {
 				diaEditText.setError( p.second );
 				isValid = false;
 			}
 
 			s = pulseEditText.getText().toString();
 			p = validatePulse( s );
-			if(!p.first){
+			if ( !p.first ) {
 				pulseEditText.setError( p.second );
 				isValid = false;
 			}
 
-			if(isValid){
+			if ( isValid ) {
 				int sys = Integer.parseInt( sysEditText.getText().toString() );
 				int dia = Integer.parseInt( diaEditText.getText().toString() );
 				int pulse = Integer.parseInt( pulseEditText.getText().toString() );
-				Record record = new Record( sys, dia, pulse, selectedTime );
+				Record record = new Record( sys, dia, pulse, selectedTime, isArrhythmia );
 				RecordsManager.getInstance()
 						.add( record )
 						.save();
@@ -115,7 +143,7 @@ public class AddRecordActivity extends ThemeActivity {
 		} );
 	}
 
-	private void showDatePicker(){
+	private void showDatePicker() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis( selectedTime );
 		DatePickerDialog dialog = new DatePickerDialog( this );
@@ -130,7 +158,7 @@ public class AddRecordActivity extends ThemeActivity {
 		dialog.show();
 	}
 
-	private void showTimePicker(Calendar calendar){
+	private void showTimePicker(Calendar calendar) {
 		TimePickerDialog dialog = new TimePickerDialog( this, (view, hourOfDay, minute)->{
 			calendar.set( Calendar.HOUR_OF_DAY, hourOfDay );
 			calendar.set( Calendar.MINUTE, minute );
@@ -142,10 +170,10 @@ public class AddRecordActivity extends ThemeActivity {
 		dialog.show();
 	}
 
-	private void setButtonText(long time){
+	private void setButtonText(long time) {
 		Button btn = findViewById( R.id.btn_measure_time );
 		btn.setText( DateFormat.getDateTimeInstance().format( new Date( time ) ) );
-		btn.setOnClickListener( v -> {
+		btn.setOnClickListener( v->{
 			showDatePicker();
 		} );
 	}

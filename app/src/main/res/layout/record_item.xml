@@ -157,6 +157,14 @@
                 app:layout_constraintStart_toEndOf="@+id/item_pulse"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/item_arrhythmia_image_view"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_heartbeat"
+            app:tint="@color/red" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

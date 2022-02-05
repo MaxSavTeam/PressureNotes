@@ -55,7 +55,8 @@ public class RecordsManager {
 				int dia = recordObject.getInt( "dia" );
 				int pulse = recordObject.getInt( "pulse" );
 				long time = recordObject.getLong( "measure_time" );
-				mRecords.add( new Record( sys, dia, pulse, time ) );
+				boolean arrhythmia = recordObject.optBoolean( "arrhythmia", false );
+				mRecords.add( new Record( sys, dia, pulse, time, arrhythmia ) );
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,8 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 
 		holder.sysIndicator.setBackgroundColor( context.getColor( ColorsLevelResolver.getColorForSys( record.getSystolicPressure() ) ) );
 		holder.diaIndicator.setBackgroundColor( context.getColor( ColorsLevelResolver.getColorForDia( record.getDiastolicPressure() ) ) );
+
+		holder.arrhythmiaImageView.setVisibility( record.isArrhythmia() ? View.VISIBLE : View.GONE );
 
 		holder.itemView.getViewTreeObserver().addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
@@ -114,6 +117,7 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		public final TextView time;
 		public final LinearLayout sysIndicator;
 		public final LinearLayout diaIndicator;
+		public final ImageView arrhythmiaImageView;
 
 		public ViewHolder(@NonNull View itemView) {
 			super( itemView );
@@ -126,6 +130,8 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 			diaIndicator = itemView.findViewById( R.id.item_dia_indicator );
 
 			time = itemView.findViewById( R.id.item_time );
+
+			arrhythmiaImageView = itemView.findViewById( R.id.item_arrhythmia_image_view );
 		}
 
 	}

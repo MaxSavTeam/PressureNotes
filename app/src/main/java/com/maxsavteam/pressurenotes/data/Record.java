@@ -12,12 +12,14 @@ public class Record {
 	private final int mPulse;
 	private final long mMeasureTime;
 	private final int recordLocalId;
+	private final boolean isArrhythmia;
 
-	public Record(int systolicPressure, int diastolicPressure, int pulse, long measureTime) {
+	public Record(int systolicPressure, int diastolicPressure, int pulse, long measureTime, boolean isArrhythmia) {
 		mSystolicPressure = systolicPressure;
 		mDiastolicPressure = diastolicPressure;
 		mPulse = pulse;
 		mMeasureTime = measureTime;
+		this.isArrhythmia = isArrhythmia;
 		recordLocalId = nextId++;
 	}
 
@@ -41,12 +43,17 @@ public class Record {
 		return recordLocalId;
 	}
 
+	public boolean isArrhythmia() {
+		return isArrhythmia;
+	}
+
 	public JSONObject getJSON() throws JSONException {
 		return new JSONObject()
 				.put( "sys", mSystolicPressure )
 				.put( "dia", mDiastolicPressure )
 				.put( "pulse", mPulse )
-				.put( "measure_time", mMeasureTime );
+				.put( "measure_time", mMeasureTime )
+				.put( "arrhythmia", isArrhythmia );
 	}
 
 	@Override
@@ -69,7 +76,10 @@ public class Record {
 		if ( mPulse != record.mPulse ) {
 			return false;
 		}
-		return mMeasureTime == record.mMeasureTime;
+		if ( mMeasureTime != record.mMeasureTime ) {
+			return false;
+		}
+		return isArrhythmia == record.isArrhythmia;
 	}
 
 	@Override
@@ -78,6 +88,7 @@ public class Record {
 		result = 31 * result + mDiastolicPressure;
 		result = 31 * result + mPulse;
 		result = 31 * result + (int) ( mMeasureTime ^ ( mMeasureTime >>> 32 ) );
+		result = 31 * result + ( isArrhythmia ? 1 : 0 );
 		return result;
 	}
 }
