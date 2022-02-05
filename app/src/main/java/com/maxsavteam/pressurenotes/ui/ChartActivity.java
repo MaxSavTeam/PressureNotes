@@ -222,17 +222,29 @@ public class ChartActivity extends ThemeActivity {
 
 		int minSys = Integer.MAX_VALUE, maxSys = 0;
 		int minDia = Integer.MAX_VALUE, maxDia = 0;
+		int minPulse = Integer.MAX_VALUE, maxPulse = 0;
 		for (Record record : records) {
 			minSys = Math.min( minSys, record.getSystolicPressure() );
 			maxSys = Math.max( maxSys, record.getSystolicPressure() );
 
 			minDia = Math.min( minDia, record.getDiastolicPressure() );
 			maxDia = Math.max( maxDia, record.getDiastolicPressure() );
+
+			minPulse = Math.min( minDia, record.getPulse() );
+			maxPulse = Math.max( maxDia, record.getPulse() );
 		}
 
-		DataPoint[][] dataPoints = new DataPoint[ 2 ][ n ];
-		int[] seriesColors = new int[]{ R.color.orange, R.color.light_green };
-		String[] seriesTitles = new String[]{ getString( R.string.systolic_pressure ), getString( R.string.diastolic_pressure ) };
+		DataPoint[][] dataPoints = new DataPoint[ 3 ][ n ];
+		int[] seriesColors = new int[]{
+				R.color.orange,
+				R.color.light_green,
+				R.color.red
+		};
+		String[] seriesTitles = new String[]{
+				getString( R.string.systolic_pressure ),
+				getString( R.string.diastolic_pressure ),
+				getString( R.string.pulse )
+		};
 
 		int next = -1;
 		if ( n == 1 ) {
@@ -244,9 +256,10 @@ public class ChartActivity extends ThemeActivity {
 			int j = n - i - 1;
 			dataPoints[ 0 ][ j ] = new DataPoint( next, record.getSystolicPressure() );
 			dataPoints[ 1 ][ j ] = new DataPoint( next, record.getDiastolicPressure() );
+			dataPoints[ 2 ][ j ] = new DataPoint( next, record.getPulse() );
 		}
 
-		for (int it = 0; it < 2; it++) {
+		for (int it = 0; it < 3; it++) {
 			LineGraphSeries<DataPoint> series = new LineGraphSeries<>( dataPoints[ it ] );
 
 			series.setAnimated( true );
@@ -266,8 +279,8 @@ public class ChartActivity extends ThemeActivity {
 			mGraphViewViewport.setMaxX( next );
 		}
 
-		int minY = Math.max( 0, Math.min( minDia, minSys ) - 10 );
-		int maxY = Math.max( maxDia, maxSys ) + 10;
+		int minY = Math.max( 0, Math.min( minDia, Math.min( minSys, minPulse ) ) - 10 );
+		int maxY = Math.max( maxDia, Math.max( maxSys, maxPulse ) ) + 10;
 		mGraphViewViewport.setMinY( minY );
 		mGraphViewViewport.setMaxY( maxY );
 

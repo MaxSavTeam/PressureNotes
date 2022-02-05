@@ -4,9 +4,6 @@
     <string name="add_record">Добавить запись</string>
     <string name="view_chart">Статистика</string>
 
-    <string name="sys_label" translatable="false">SYS:</string>
-    <string name="dia_label" translatable="false">DIA:</string>
-
     <string name="pulse_label">Пульс:</string>
 
     <string name="systolic_pressure">Систолическое давление</string>
