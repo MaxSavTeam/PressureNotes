@@ -134,7 +134,14 @@ public class AddRecordActivity extends AppCompatActivity {
 				int sys = Integer.parseInt( sysEditText.getText().toString() );
 				int dia = Integer.parseInt( diaEditText.getText().toString() );
 				int pulse = Integer.parseInt( pulseEditText.getText().toString() );
-				Record record = new Record( sys, dia, pulse, selectedTime, isArrhythmia );
+
+				Record record = new Record();
+				record.setSystolicPressure( sys );
+				record.setDiastolicPressure( dia );
+				record.setPulse( pulse );
+				record.setMeasureTime( selectedTime );
+				record.setArrhythmia( isArrhythmia );
+
 				RecordsManager.getInstance()
 						.add( record )
 						.save();

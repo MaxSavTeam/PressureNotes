@@ -51,12 +51,15 @@ public class RecordsManager {
 			JSONArray records = jsonObject.getJSONArray( "records" );
 			for (int i = 0; i < records.length(); i++) {
 				JSONObject recordObject = records.getJSONObject( i );
-				int sys = recordObject.getInt( "sys" );
-				int dia = recordObject.getInt( "dia" );
-				int pulse = recordObject.getInt( "pulse" );
-				long time = recordObject.getLong( "measure_time" );
-				boolean arrhythmia = recordObject.optBoolean( "arrhythmia", false );
-				mRecords.add( new Record( sys, dia, pulse, time, arrhythmia ) );
+
+				Record record = new Record();
+				record.setSystolicPressure( recordObject.getInt( "sys" ) );
+				record.setDiastolicPressure( recordObject.getInt( "dia" ) );
+				record.setPulse( recordObject.getInt( "pulse" ) );
+				record.setMeasureTime( recordObject.getLong( "measure_time" ) );
+				record.setArrhythmia( recordObject.optBoolean( "arrhythmia", false ) );
+
+				mRecords.add( record );
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

@@ -5,54 +5,58 @@ import org.json.JSONObject;
 
 public class Record {
 
-	private static int nextId = 0;
-
-	private final int mSystolicPressure;
-	private final int mDiastolicPressure;
-	private final int mPulse;
-	private final long mMeasureTime;
-	private final int recordLocalId;
-	private final boolean isArrhythmia;
-
-	public Record(int systolicPressure, int diastolicPressure, int pulse, long measureTime, boolean isArrhythmia) {
-		mSystolicPressure = systolicPressure;
-		mDiastolicPressure = diastolicPressure;
-		mPulse = pulse;
-		mMeasureTime = measureTime;
-		this.isArrhythmia = isArrhythmia;
-		recordLocalId = nextId++;
-	}
+	private int systolicPressure;
+	private int diastolicPressure;
+	private int pulse;
+	private long measureTime;
+	private boolean isArrhythmia;
 
 	public int getSystolicPressure() {
-		return mSystolicPressure;
+		return systolicPressure;
+	}
+
+	public void setSystolicPressure(int systolicPressure) {
+		this.systolicPressure = systolicPressure;
 	}
 
 	public int getDiastolicPressure() {
-		return mDiastolicPressure;
+		return diastolicPressure;
+	}
+
+	public void setDiastolicPressure(int diastolicPressure) {
+		this.diastolicPressure = diastolicPressure;
 	}
 
 	public int getPulse() {
-		return mPulse;
+		return pulse;
+	}
+
+	public void setPulse(int pulse) {
+		this.pulse = pulse;
 	}
 
 	public long getMeasureTime() {
-		return mMeasureTime;
+		return measureTime;
 	}
 
-	public int getRecordLocalId() {
-		return recordLocalId;
+	public void setMeasureTime(long measureTime) {
+		this.measureTime = measureTime;
 	}
 
 	public boolean isArrhythmia() {
 		return isArrhythmia;
 	}
 
+	public void setArrhythmia(boolean arrhythmia) {
+		isArrhythmia = arrhythmia;
+	}
+
 	public JSONObject getJSON() throws JSONException {
 		return new JSONObject()
-				.put( "sys", mSystolicPressure )
-				.put( "dia", mDiastolicPressure )
-				.put( "pulse", mPulse )
-				.put( "measure_time", mMeasureTime )
+				.put( "sys", systolicPressure )
+				.put( "dia", diastolicPressure )
+				.put( "pulse", pulse )
+				.put( "measure_time", measureTime )
 				.put( "arrhythmia", isArrhythmia );
 	}
 
@@ -67,16 +71,16 @@ public class Record {
 
 		Record record = (Record) o;
 
-		if ( mSystolicPressure != record.mSystolicPressure ) {
+		if ( systolicPressure != record.systolicPressure ) {
 			return false;
 		}
-		if ( mDiastolicPressure != record.mDiastolicPressure ) {
+		if ( diastolicPressure != record.diastolicPressure ) {
 			return false;
 		}
-		if ( mPulse != record.mPulse ) {
+		if ( pulse != record.pulse ) {
 			return false;
 		}
-		if ( mMeasureTime != record.mMeasureTime ) {
+		if ( measureTime != record.measureTime ) {
 			return false;
 		}
 		return isArrhythmia == record.isArrhythmia;
@@ -84,10 +88,10 @@ public class Record {
 
 	@Override
 	public int hashCode() {
-		int result = mSystolicPressure;
-		result = 31 * result + mDiastolicPressure;
-		result = 31 * result + mPulse;
-		result = 31 * result + (int) ( mMeasureTime ^ ( mMeasureTime >>> 32 ) );
+		int result = systolicPressure;
+		result = 31 * result + diastolicPressure;
+		result = 31 * result + pulse;
+		result = 31 * result + (int) ( measureTime ^ ( measureTime >>> 32 ) );
 		result = 31 * result + ( isArrhythmia ? 1 : 0 );
 		return result;
 	}
