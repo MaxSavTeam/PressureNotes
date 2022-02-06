@@ -1,6 +1,4 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:textColor="?textColor"
-    android:background="?windowBackgroundColor"
     android:singleLine="true"
     android:padding="10dp"
     android:textSize="17sp"

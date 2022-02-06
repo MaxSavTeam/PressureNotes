@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +24,7 @@ import com.maxsavteam.pressurenotes.utils.SharedConstants;
 
 import java.util.ArrayList;
 
-public class RecordsActivity extends ThemeActivity {
+public class RecordsActivity extends AppCompatActivity {
 
 	private RecordsListAdapter mRecordsListAdapter;
 
@@ -34,35 +35,6 @@ public class RecordsActivity extends ThemeActivity {
 			mRecordsListAdapter.update( RecordsManager.getRecords() );
 		}
 		super.onActivityResult( requestCode, resultCode, data );
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-		if ( item.getItemId() == R.id.item_select_theme ) {
-			openThemePicker();
-		}
-		return super.onOptionsItemSelected( item );
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate( R.menu.records_list_menu, menu );
-		return super.onCreateOptionsMenu( menu );
-	}
-
-	private void openThemePicker() {
-		AlertDialog.Builder builder = new AlertDialog.Builder( this );
-		SharedPreferences sp = getSharedPreferences( "settings", MODE_PRIVATE );
-		builder
-				.setSingleChoiceItems( R.array.theme_variants, sp.getInt( "dark_mode", 2 ), (dialog, which)->{
-					sp.edit().putInt( "dark_mode", which ).apply();
-					Intent intent = new Intent(this, RecordsActivity.class);
-					intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-					startActivity( intent );
-					finish();
-				} )
-				.setTitle( R.string.select_theme )
-				.show();
 	}
 
 	@Override

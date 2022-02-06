@@ -2,6 +2,7 @@ package com.maxsavteam.pressurenotes.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -38,7 +40,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class ChartActivity extends ThemeActivity {
+public class ChartActivity extends AppCompatActivity {
 
 	private static final String TAG = App.TAG + " ChartActivity";
 	private Map<Integer, Record> mPositions = new HashMap<>();
@@ -49,6 +51,8 @@ public class ChartActivity extends ThemeActivity {
 	public static final int CHART_VIEW_TYPE_MONTH = 2;
 	public static final int CHART_VIEW_TYPE_ALL = 3;
 	private Viewport mGraphViewViewport;
+
+	private int cardViewBackgroundColor;
 
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -72,6 +76,10 @@ public class ChartActivity extends ThemeActivity {
 			actionBar.setDisplayHomeAsUpEnabled( true );
 		}
 
+		TypedValue data = new TypedValue();
+		getTheme().resolveAttribute( R.attr.cardViewBackgroundColor, data, true );
+		cardViewBackgroundColor = data.data;
+
 		mGraphView = findViewById( R.id.graph_view );
 
 		initializeModeSpinner();
@@ -84,13 +92,9 @@ public class ChartActivity extends ThemeActivity {
 
 		mGraphViewViewport.setXAxisBoundsManual( true );
 		mGraphViewViewport.setYAxisBoundsManual( true );
-		mGraphViewViewport.setBorderColor( super.textColor );
 
 		GridLabelRenderer renderer = mGraphView.getGridLabelRenderer();
 		renderer.setLabelFormatter( mLabelFormatter );
-		renderer.setGridColor( textColor );
-		renderer.setHorizontalLabelsColor( textColor );
-		renderer.setVerticalLabelsColor( textColor );
 	}
 
 	private void initializeModeSpinner() {
@@ -327,7 +331,11 @@ public class ChartActivity extends ThemeActivity {
 				.setView( view )
 				.setPositiveButton( R.string.close, (dialog, which)->dialog.cancel() );
 		AlertDialog dialog = builder.create();
-		dialog.getWindow().getDecorView().setBackgroundColor( cardViewBackgroundColor );
+
+		TypedValue data = new TypedValue();
+		getTheme().resolveAttribute( R.attr.colorSurface, data, true );
+		dialog.getWindow().getDecorView().setBackgroundColor( data.data );
+
 		dialog.show();
 	};
 }

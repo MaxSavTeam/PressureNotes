@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
 
 import com.maxsavteam.pressurenotes.R;
@@ -21,7 +22,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddRecordActivity extends ThemeActivity {
+public class AddRecordActivity extends AppCompatActivity {
 
 	private long selectedTime;
 

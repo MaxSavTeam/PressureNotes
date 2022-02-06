@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Theme.MaterialComponents.Light"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/card_view_margin_top_bottom"
     android:layout_marginBottom="@dimen/card_view_margin_top_bottom"
     android:layout_marginStart="@dimen/card_view_margin_left_right"
     android:layout_marginEnd="@dimen/card_view_margin_left_right"
-    app:cardBackgroundColor="?cardViewBackgroundColor"
     app:cardElevation="5dp"
+    app:cardBackgroundColor="?colorSurface"
     app:cardCornerRadius="10dp"
     app:contentPadding="10dp">
 
@@ -24,8 +23,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:textColor="?accentTextColor"
-            android:textSize="18sp" />
+            android:textColor="?colorPrimary"
+            android:textStyle="bold"
+            android:textSize="20sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/item_sys_constraint"
@@ -39,7 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sys_label"
-                android:textColor="?textColor"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +51,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="?textColor"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -88,7 +86,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dia_label"
-                android:textColor="?textColor"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +98,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="?textColor"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -135,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/pulse_label"
-                android:textColor="?textColor"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +143,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="?textColor"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -167,4 +161,4 @@
             app:tint="@color/red" />
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

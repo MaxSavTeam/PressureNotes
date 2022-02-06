@@ -8,11 +8,22 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#4361ee</color>
-    <color name="colorPrimaryDark">#3f37c9</color>
-    <color name="colorAccent">#023e8a</color>
+    <color name="primaryColor">#3f37c9</color>
+    <color name="primaryLightColor">#7a63fd</color>
+    <color name="primaryDarkColor">#000d97</color>
+    <color name="secondaryColor">#4361ee</color>
+    <color name="secondaryLightColor">#818eff</color>
+    <color name="secondaryDarkColor">#0038ba</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
 
-    <color name="accentTextColorLight">#4361ee</color>
+    <color name="light_surface">#FFFBFF</color>
+    <color name="light_onSurface">#1C1B1E</color>
+
+    <color name="dark_surface">#1C1B1E</color>
+    <color name="dark_onSurface">#E5E1E6</color>
+
+    <color name="colorAccent">#023e8a</color>
 
     <color name="light_green">#4CAF50</color>
     <color name="green">#166F1C</color>

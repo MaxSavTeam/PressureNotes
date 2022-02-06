@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.PressureNotes" parent="Theme.MaterialComponents.DayNight">
@@ -8,8 +9,8 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
 
-        <item name="colorSurface">@color/light_surface</item>
-        <item name="colorOnSurface">@color/light_onSurface</item>
+        <item name="colorSurface">@color/dark_surface</item>
+        <item name="colorOnSurface">@color/dark_onSurface</item>
 
         <item name="colorAccent">@color/colorAccent</item>
     </style>
