@@ -1,16 +1,12 @@
 package com.maxsavteam.pressurenotes.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +15,6 @@ import com.maxsavteam.pressurenotes.R;
 import com.maxsavteam.pressurenotes.adapters.RecordsListAdapter;
 import com.maxsavteam.pressurenotes.data.Record;
 import com.maxsavteam.pressurenotes.data.RecordsManager;
-import com.maxsavteam.pressurenotes.utils.RequestCodesConstants;
 import com.maxsavteam.pressurenotes.utils.SharedConstants;
 
 import java.util.ArrayList;
@@ -28,14 +23,15 @@ public class RecordsActivity extends AppCompatActivity {
 
 	private RecordsListAdapter mRecordsListAdapter;
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-		if ( requestCode == RequestCodesConstants.ADD_RECORD && resultCode == RESULT_OK ) {
-			findViewById( R.id.noRecordsTextView ).setVisibility( View.GONE );
-			mRecordsListAdapter.update( RecordsManager.getRecords() );
-		}
-		super.onActivityResult( requestCode, resultCode, data );
-	}
+	private final ActivityResultLauncher<Intent> addRecordActivityLauncher = registerForActivityResult(
+			new ActivityResultContracts.StartActivityForResult(),
+			result -> {
+				if(result.getResultCode() == RESULT_OK){
+					findViewById( R.id.noRecordsTextView ).setVisibility( View.GONE );
+					mRecordsListAdapter.update( RecordsManager.getRecords() );
+				}
+			}
+	);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,25 +44,20 @@ public class RecordsActivity extends AppCompatActivity {
 
 		setupRecyclerView();
 
-		findViewById( R.id.fab_add_record ).setOnClickListener( v->{
-			startActivityForResult( new Intent( this, AddRecordActivity.class ), RequestCodesConstants.ADD_RECORD );
-		} );
+		findViewById( R.id.fab_add_record ).setOnClickListener( v->addRecordActivityLauncher.launch( new Intent( this, AddRecordActivity.class ) ) );
 
 		findViewById( R.id.fab_view_chart ).setOnClickListener( v->{
 			if ( RecordsManager.getRecordsCount() == 0 ) {
 				Toast.makeText( this, R.string.there_is_no_records, Toast.LENGTH_SHORT ).show();
 			} else {
-				startActivityForResult( new Intent( this, ChartActivity.class ), RequestCodesConstants.VIEW_CHART );
+				startActivity( new Intent( this, ChartActivity.class ) );
 			}
 		} );
 	}
 
-	private final RecordsListAdapter.RecordsListAdapterCallback mAdapterCallback = new RecordsListAdapter.RecordsListAdapterCallback() {
-		@Override
-		public void onItemRemoved() {
-			if(RecordsManager.getRecordsCount() == 0)
-				findViewById( R.id.noRecordsTextView ).setVisibility( View.VISIBLE );
-		}
+	private final RecordsListAdapter.RecordsListAdapterCallback mAdapterCallback = ()->{
+		if(RecordsManager.getRecordsCount() == 0)
+			findViewById( R.id.noRecordsTextView ).setVisibility( View.VISIBLE );
 	};
 
 	private void setupRecyclerView() {
