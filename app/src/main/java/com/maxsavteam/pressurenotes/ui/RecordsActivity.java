@@ -3,10 +3,12 @@ package com.maxsavteam.pressurenotes.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,10 +57,33 @@ public class RecordsActivity extends AppCompatActivity {
 		} );
 	}
 
-	private final RecordsListAdapter.RecordsListAdapterCallback mAdapterCallback = ()->{
-		if(RecordsManager.getRecordsCount() == 0)
-			findViewById( R.id.noRecordsTextView ).setVisibility( View.VISIBLE );
+	private final RecordsListAdapter.RecordsListAdapterCallback mAdapterCallback = (id, buttonView)->{
+		PopupMenu popupMenu = new PopupMenu( this, buttonView );
+		getMenuInflater().inflate( R.menu.record_popup_menu, popupMenu.getMenu() );
+		popupMenu.setOnMenuItemClickListener( item->{
+			if(item.getItemId() == R.id.item_delete){
+				openDeleteRecordDialog( id );
+			}
+
+			return true;
+		} );
+
+		popupMenu.show();
 	};
+
+	private void openDeleteRecordDialog(int id){
+		AlertDialog.Builder builder = new AlertDialog.Builder( this );
+		builder
+				.setTitle( R.string.delete )
+				.setMessage( R.string.delete_record )
+				.setNegativeButton( R.string.delete, ( (dialog, which)->{
+					RecordsManager.getInstance()
+							.removeById( id )
+							.save();
+					mRecordsListAdapter.removeRecordWithId( id );
+				} ) )
+				.show();
+	}
 
 	private void setupRecyclerView() {
 		ArrayList<Record> records = RecordsManager.getRecords();

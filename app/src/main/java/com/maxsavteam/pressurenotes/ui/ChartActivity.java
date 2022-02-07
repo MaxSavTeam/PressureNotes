@@ -325,6 +325,7 @@ public class ChartActivity extends AppCompatActivity {
 		View view = LayoutInflater.from( this ).inflate( R.layout.record_item, null );
 		RecordsListAdapter.ViewHolder holder = new RecordsListAdapter.ViewHolder( view );
 		RecordsListAdapter.fillViewHolder( holder, record, this );
+		holder.moreButton.setVisibility( View.GONE );
 
 		AlertDialog.Builder builder = new AlertDialog.Builder( this );
 		builder

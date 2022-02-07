@@ -24,7 +24,7 @@ public class RecordsManager {
 
 	private static final String EMPTY_JSON = "{\"records\":[]}";
 
-	private final ArrayList<Record> mRecords = new ArrayList<>();
+	private final ArrayList<Record> records = new ArrayList<>();
 
 	private final ManagerByPeriod mManagerByPeriod;
 
@@ -59,14 +59,14 @@ public class RecordsManager {
 				record.setMeasureTime( recordObject.getLong( "measure_time" ) );
 				record.setArrhythmia( recordObject.optBoolean( "arrhythmia", false ) );
 
-				mRecords.add( record );
+				this.records.add( record );
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Logger.i( TAG, "RecordsManager: " + e );
 		}
 		sort();
-		mManagerByPeriod = new ManagerByPeriod( mRecords );
+		mManagerByPeriod = new ManagerByPeriod( records );
 	}
 
 	private String readDataFromFile() throws IOException {
@@ -82,13 +82,23 @@ public class RecordsManager {
 	}
 
 	public RecordsManager add(Record r) {
-		mRecords.add( r );
+		records.add( r );
 		sort();
 		return this;
 	}
 
 	public RecordsManager remove(int index){
-		mRecords.remove( index );
+		records.remove( index );
+		return this;
+	}
+
+	public RecordsManager removeById(int id){
+		for(int i = 0; i < records.size(); i++){
+			if ( records.get( i ).getId() == id ) {
+				records.remove( i );
+				break;
+			}
+		}
 		return this;
 	}
 
@@ -96,7 +106,7 @@ public class RecordsManager {
 		String data;
 		try {
 			JSONArray array = new JSONArray();
-			for (Record record : mRecords) {
+			for (Record record : records) {
 				array.put( record.getJSON() );
 			}
 			data = new JSONObject()
@@ -115,17 +125,17 @@ public class RecordsManager {
 	}
 
 	private void sort() {
-		mRecords.sort( (o1, o2)->{
+		records.sort( (o1, o2)->{
 			return -Long.compare( o1.getMeasureTime(), o2.getMeasureTime() ); // descending order
 		} );
 	}
 
 	public static ArrayList<Record> getRecords() {
-		return new ArrayList<>( getInstance().mRecords );
+		return new ArrayList<>( getInstance().records );
 	}
 
 	public static int getRecordsCount(){
-		return getInstance().mRecords.size();
+		return getInstance().records.size();
 	}
 
 	private void writeDataToFile(String data) throws IOException {

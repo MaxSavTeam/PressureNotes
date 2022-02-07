@@ -3,13 +3,23 @@ package com.maxsavteam.pressurenotes.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Record {
+
+	private static final AtomicInteger nextId = new AtomicInteger(0);
+
+	private final int id = nextId.incrementAndGet();
 
 	private int systolicPressure;
 	private int diastolicPressure;
 	private int pulse;
 	private long measureTime;
 	private boolean isArrhythmia;
+
+	public int getId() {
+		return id;
+	}
 
 	public int getSystolicPressure() {
 		return systolicPressure;
