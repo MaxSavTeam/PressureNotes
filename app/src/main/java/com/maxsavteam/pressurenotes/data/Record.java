@@ -9,13 +9,26 @@ public class Record {
 
 	private static final AtomicInteger nextId = new AtomicInteger(0);
 
-	private final int id = nextId.incrementAndGet();
+	private final int id;
 
 	private int systolicPressure;
 	private int diastolicPressure;
 	private int pulse;
 	private long measureTime;
 	private boolean isArrhythmia;
+
+	public Record(){
+		id = nextId.incrementAndGet();
+	}
+
+	public Record(Record other) {
+		this.id = other.id;
+		this.systolicPressure = other.systolicPressure;
+		this.diastolicPressure = other.diastolicPressure;
+		this.pulse = other.pulse;
+		this.measureTime = other.measureTime;
+		this.isArrhythmia = other.isArrhythmia;
+	}
 
 	public int getId() {
 		return id;

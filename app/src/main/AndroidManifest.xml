@@ -14,7 +14,7 @@
             android:label="@string/view_chart"
             android:exported="true" />
         <activity
-            android:name=".ui.AddRecordActivity"
+            android:name=".ui.RecordEditorActivity"
             android:exported="true"
             android:label="@string/add_record" />
         <activity

@@ -23,14 +23,29 @@ import java.util.ArrayList;
 
 public class RecordsActivity extends AppCompatActivity {
 
-	private RecordsListAdapter mRecordsListAdapter;
+	private RecordsListAdapter recordsListAdapter;
 
 	private final ActivityResultLauncher<Intent> addRecordActivityLauncher = registerForActivityResult(
 			new ActivityResultContracts.StartActivityForResult(),
 			result -> {
 				if(result.getResultCode() == RESULT_OK){
 					findViewById( R.id.noRecordsTextView ).setVisibility( View.GONE );
-					mRecordsListAdapter.update( RecordsManager.getRecords() );
+					recordsListAdapter.update( RecordsManager.getRecords() );
+				}
+			}
+	);
+
+	private final ActivityResultLauncher<Intent> editRecordActivityLauncher = registerForActivityResult(
+			new ActivityResultContracts.StartActivityForResult(),
+			result -> {
+				Intent data = result.getData();
+				if(result.getResultCode() == RESULT_OK && data != null){
+					if(data.getBooleanExtra( "time_changed", false )){
+						// position of record have changed
+						recordsListAdapter.update( RecordsManager.getRecords() );
+					}else{
+						recordsListAdapter.updateRecordWithId( data.getIntExtra( "record_id", 0 ) );
+					}
 				}
 			}
 	);
@@ -46,7 +61,7 @@ public class RecordsActivity extends AppCompatActivity {
 
 		setupRecyclerView();
 
-		findViewById( R.id.fab_add_record ).setOnClickListener( v->addRecordActivityLauncher.launch( new Intent( this, AddRecordActivity.class ) ) );
+		findViewById( R.id.fab_add_record ).setOnClickListener( v->addRecordActivityLauncher.launch( new Intent( this, RecordEditorActivity.class ) ) );
 
 		findViewById( R.id.fab_view_chart ).setOnClickListener( v->{
 			if ( RecordsManager.getRecordsCount() == 0 ) {
@@ -63,6 +78,10 @@ public class RecordsActivity extends AppCompatActivity {
 		popupMenu.setOnMenuItemClickListener( item->{
 			if(item.getItemId() == R.id.item_delete){
 				openDeleteRecordDialog( id );
+			}else if(item.getItemId() == R.id.item_edit){
+				editRecordActivityLauncher.launch( new Intent(this, RecordEditorActivity.class)
+						.putExtra( "record_id", id )
+				);
 			}
 
 			return true;
@@ -80,7 +99,7 @@ public class RecordsActivity extends AppCompatActivity {
 					RecordsManager.getInstance()
 							.removeById( id )
 							.save();
-					mRecordsListAdapter.removeRecordWithId( id );
+					recordsListAdapter.removeRecordWithId( id );
 				} ) )
 				.show();
 	}
@@ -96,7 +115,7 @@ public class RecordsActivity extends AppCompatActivity {
 		manager.setOrientation( RecyclerView.VERTICAL );
 		recyclerView.setLayoutManager( manager );
 
-		mRecordsListAdapter = new RecordsListAdapter( this, records, mAdapterCallback );
-		recyclerView.setAdapter( mRecordsListAdapter );
+		recordsListAdapter = new RecordsListAdapter( this, records, mAdapterCallback );
+		recyclerView.setAdapter( recordsListAdapter );
 	}
 }

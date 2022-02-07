@@ -2,6 +2,7 @@ package com.maxsavteam.pressurenotes.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Pair;
@@ -21,8 +22,9 @@ import com.maxsavteam.pressurenotes.ui.widget.InputEditText;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
-public class AddRecordActivity extends AppCompatActivity {
+public class RecordEditorActivity extends AppCompatActivity {
 
 	private long selectedTime;
 
@@ -82,31 +84,46 @@ public class AddRecordActivity extends AppCompatActivity {
 		}
 
 		selectedTime = System.currentTimeMillis();
-		setButtonText( selectedTime );
+		setMeasureTimeButtonText( selectedTime );
 
-		Button btnArrhythmia = findViewById( R.id.btn_arrhythmia );
-		btnArrhythmia.setOnClickListener( v->{
+		findViewById( R.id.btn_arrhythmia ).setOnClickListener( v->{
 			isArrhythmia = !isArrhythmia;
-			if ( isArrhythmia ) {
-				btnArrhythmia.setTextColor( getColor( R.color.red ) );
-				TextViewCompat.setCompoundDrawableTintList(
-						btnArrhythmia,
-						ColorStateList.valueOf( getColor( R.color.red ) )
-				);
-			}else{
-				btnArrhythmia.setTextColor( getColor( R.color.light_gray ) );
-				TextViewCompat.setCompoundDrawableTintList(
-						btnArrhythmia,
-						ColorStateList.valueOf( getColor( R.color.light_gray ) )
-				);
-			}
+			updateArrhythmiaButtonState();
 		} );
+
+		InputEditText sysEditText = findViewById( R.id.sys_edit_text );
+		InputEditText diaEditText = findViewById( R.id.dia_edit_text );
+		InputEditText pulseEditText = findViewById( R.id.pulse_edit_text );
+
+		int editingRecordId = getIntent().getIntExtra( "record_id", -1 );
+		Record editingRecord;
+		if(editingRecordId != -1) {
+			Optional<Record> op = RecordsManager.getInstance().findRecordWithId(editingRecordId);
+			if(op.isPresent()){
+				editingRecord = op.get();
+			}else{
+				setResult( RESULT_CANCELED );
+				finish();
+				return;
+			}
+
+			setTitle( R.string.edit );
+
+			sysEditText.setText( String.valueOf( editingRecord.getSystolicPressure() ) );
+			diaEditText.setText( String.valueOf( editingRecord.getDiastolicPressure() ) );
+			pulseEditText.setText( String.valueOf( editingRecord.getPulse() ) );
+
+			isArrhythmia = editingRecord.isArrhythmia();
+			updateArrhythmiaButtonState();
+
+			selectedTime = editingRecord.getMeasureTime();
+			setMeasureTimeButtonText( selectedTime );
+		}else{
+			editingRecord = null;
+		}
 
 		Button btn = findViewById( R.id.btn_save );
 		btn.setOnClickListener( v->{
-			InputEditText sysEditText = findViewById( R.id.sys_edit_text );
-			InputEditText diaEditText = findViewById( R.id.dia_edit_text );
-			InputEditText pulseEditText = findViewById( R.id.pulse_edit_text );
 			boolean isValid = true;
 
 			String s = sysEditText.getText().toString();
@@ -135,20 +152,48 @@ public class AddRecordActivity extends AppCompatActivity {
 				int dia = Integer.parseInt( diaEditText.getText().toString() );
 				int pulse = Integer.parseInt( pulseEditText.getText().toString() );
 
-				Record record = new Record();
+				boolean isTimeChanged = false;
+				Record record;
+				if(editingRecord != null) {
+					record = editingRecord;
+					isTimeChanged = editingRecord.getMeasureTime() != selectedTime;
+				} else
+					record = new Record();
 				record.setSystolicPressure( sys );
 				record.setDiastolicPressure( dia );
 				record.setPulse( pulse );
 				record.setMeasureTime( selectedTime );
 				record.setArrhythmia( isArrhythmia );
 
-				RecordsManager.getInstance()
-						.add( record )
-						.save();
-				setResult( RESULT_OK );
+				if(editingRecord == null) {
+					RecordsManager.getInstance()
+							.add( record )
+							.sort()
+							.save();
+					setResult( RESULT_OK );
+				}else{
+					RecordsManager.getInstance()
+							.sort()
+							.save();
+					setResult( RESULT_OK,
+							new Intent()
+									.putExtra( "record_id", editingRecordId )
+									.putExtra( "time_changed", isTimeChanged )
+					);
+				}
 				super.onBackPressed();
 			}
 		} );
+	}
+
+	private void updateArrhythmiaButtonState(){
+		int color = isArrhythmia ? R.color.red : R.color.light_gray;
+		Button btnArrhythmia = findViewById( R.id.btn_arrhythmia );
+		btnArrhythmia.setTextColor( getColor( color ) );
+		TextViewCompat.setCompoundDrawableTintList(
+				btnArrhythmia,
+				ColorStateList.valueOf( getColor( color ) )
+		);
 	}
 
 	private void showDatePicker() {
@@ -172,17 +217,15 @@ public class AddRecordActivity extends AppCompatActivity {
 			calendar.set( Calendar.MINUTE, minute );
 			selectedTime = calendar.getTimeInMillis();
 
-			setButtonText( selectedTime );
+			setMeasureTimeButtonText( selectedTime );
 		}, calendar.get( Calendar.HOUR_OF_DAY ), calendar.get( Calendar.MINUTE ), true );
 
 		dialog.show();
 	}
 
-	private void setButtonText(long time) {
+	private void setMeasureTimeButtonText(long time) {
 		Button btn = findViewById( R.id.btn_measure_time );
 		btn.setText( DateFormat.getDateTimeInstance().format( new Date( time ) ) );
-		btn.setOnClickListener( v->{
-			showDatePicker();
-		} );
+		btn.setOnClickListener( v->showDatePicker() );
 	}
 }

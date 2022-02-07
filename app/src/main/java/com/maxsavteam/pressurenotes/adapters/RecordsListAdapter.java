@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxsavteam.pressurenotes.App;
@@ -29,12 +30,12 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 	private final Context mContext;
 	private final RecordsListAdapterCallback mAdapterCallback;
 
-	public interface RecordsListAdapterCallback{
+	public interface RecordsListAdapterCallback {
 		void onMoreButtonClick(int id, View button);
 	}
 
 	public RecordsListAdapter(Context context, ArrayList<Record> records, RecordsListAdapterCallback callback) {
-		this.records = records;
+		this.records = deepCopy( records );
 		mContext = context;
 		mAdapterCallback = callback;
 	}
@@ -63,14 +64,12 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		Record record = records.get( position );
 		fillViewHolder( holder, record, mContext );
 
-		holder.moreButton.setOnClickListener( v->{
-			mAdapterCallback.onMoreButtonClick( record.getId(), v );
-		} );
+		holder.moreButton.setOnClickListener( v->mAdapterCallback.onMoreButtonClick( record.getId(), v ) );
 	}
 
-	public void removeRecordWithId(int id){
-		for(int i = 0; i < records.size(); i++){
-			if(records.get( i ).getId() == id){
+	public void removeRecordWithId(int id) {
+		for (int i = 0; i < records.size(); i++) {
+			if ( records.get( i ).getId() == id ) {
 				notifyItemRemoved( i );
 				records.remove( i );
 				break;
@@ -79,15 +78,46 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 	}
 
 	public void update(ArrayList<Record> newData) {
-		int updatedPos = newData.size() - 1;
-		for (int i = 0; i < Math.min( newData.size(), records.size() ); i++) {
-			if ( !records.get( i ).equals( newData.get( i ) ) ) {
-				updatedPos = i;
+		DiffUtil.DiffResult result = DiffUtil.calculateDiff( new DiffUtil.Callback() {
+			@Override
+			public int getOldListSize() {
+				return records.size();
+			}
+
+			@Override
+			public int getNewListSize() {
+				return newData.size();
+			}
+
+			@Override
+			public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+				return records.get( oldItemPosition ).getId() ==
+						newData.get( newItemPosition ).getId();
+			}
+
+			@Override
+			public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+				return records.get( oldItemPosition )
+						.equals( newData.get( newItemPosition ) );
+			}
+		} );
+		records = deepCopy( newData );
+		result.dispatchUpdatesTo( this );
+	}
+
+	private ArrayList<Record> deepCopy(ArrayList<Record> data){
+		ArrayList<Record> arrayList = new ArrayList<>();
+		for(Record r : data)
+			arrayList.add( new Record(r) );
+		return arrayList;
+	}
+
+	public void updateRecordWithId(int id) {
+		for (int i = 0; i < records.size(); i++)
+			if ( records.get( i ).getId() == id ) {
+				notifyItemChanged( i );
 				break;
 			}
-		}
-		records = newData;
-		notifyItemInserted( updatedPos );
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import team.maxsav.logger.Logger;
 
@@ -81,9 +82,16 @@ public class RecordsManager {
 		return outputStream.toString();
 	}
 
+	public Optional<Record> findRecordWithId(int id){
+		for(Record r : records){
+			if(r.getId() == id)
+				return Optional.of( r );
+		}
+		return Optional.empty();
+	}
+
 	public RecordsManager add(Record r) {
 		records.add( r );
-		sort();
 		return this;
 	}
 
@@ -124,10 +132,11 @@ public class RecordsManager {
 		}
 	}
 
-	private void sort() {
+	public RecordsManager sort() {
 		records.sort( (o1, o2)->{
 			return -Long.compare( o1.getMeasureTime(), o2.getMeasureTime() ); // descending order
 		} );
+		return this;
 	}
 
 	public static ArrayList<Record> getRecords() {
