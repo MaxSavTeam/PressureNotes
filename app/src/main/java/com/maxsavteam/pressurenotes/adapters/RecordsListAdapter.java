@@ -58,16 +58,6 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		holder.diaIndicator.setBackgroundColor( context.getColor( ColorsLevelResolver.getColorForDia( record.getDiastolicPressure() ) ) );
 
 		holder.arrhythmiaImageView.setVisibility( record.isArrhythmia() ? View.VISIBLE : View.GONE );
-
-		holder.itemView.getViewTreeObserver().addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				holder.itemView.getViewTreeObserver().removeOnGlobalLayoutListener( this );
-				float maxX = Math.max( holder.sysIndicator.getX(), holder.diaIndicator.getX() );
-				holder.sysIndicator.setX( maxX );
-				holder.diaIndicator.setX( maxX );
-			}
-		} );
 	}
 
 	@Override
