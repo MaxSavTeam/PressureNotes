@@ -16,7 +16,14 @@ public class App extends Application {
 		super.onCreate();
 
 		try {
-			Logger.initialize( this, null, BuildConfig.DEBUG, 15, true, true );
+			Logger.initialize(
+					new Logger.Initializer( this )
+							.setDebug( BuildConfig.DEBUG )
+							.setTimerPeriod( 15 )
+							.setAutoFlushOnException( true )
+							.setPrintErrorOnException( true )
+							.setRsaPublicKey( null )
+			);
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.e( TAG, "onCreate: logger initialization", e );
