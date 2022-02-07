@@ -52,7 +52,7 @@ public class ChartActivity extends AppCompatActivity {
 	public static final int CHART_VIEW_TYPE_ALL = 3;
 	private Viewport mGraphViewViewport;
 
-	private int cardViewBackgroundColor;
+	private int selectedChartMode;
 
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -75,10 +75,6 @@ public class ChartActivity extends AppCompatActivity {
 		if(actionBar != null){
 			actionBar.setDisplayHomeAsUpEnabled( true );
 		}
-
-		TypedValue data = new TypedValue();
-		getTheme().resolveAttribute( R.attr.cardViewBackgroundColor, data, true );
-		cardViewBackgroundColor = data.data;
 
 		mGraphView = findViewById( R.id.graph_view );
 
@@ -111,6 +107,7 @@ public class ChartActivity extends AppCompatActivity {
 		spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				selectedChartMode = position;
 				initializePeriodSpinner( position );
 			}
 
@@ -234,8 +231,8 @@ public class ChartActivity extends AppCompatActivity {
 			minDia = Math.min( minDia, record.getDiastolicPressure() );
 			maxDia = Math.max( maxDia, record.getDiastolicPressure() );
 
-			minPulse = Math.min( minDia, record.getPulse() );
-			maxPulse = Math.max( maxDia, record.getPulse() );
+			minPulse = Math.min( minPulse, record.getPulse() );
+			maxPulse = Math.max( maxPulse, record.getPulse() );
 		}
 
 		DataPoint[][] dataPoints = new DataPoint[ 3 ][ n ];
@@ -306,7 +303,8 @@ public class ChartActivity extends AppCompatActivity {
 				return "";
 			}
 			long time = record.getMeasureTime();
-
+			if(selectedChartMode == CHART_VIEW_TYPE_DAY)
+				return new SimpleDateFormat( "HH:mm", Locale.ROOT ).format( new Date( time ) );
 			return new SimpleDateFormat( "dd.MM", Locale.ROOT ).format( new Date( time ) );
 		}
 
