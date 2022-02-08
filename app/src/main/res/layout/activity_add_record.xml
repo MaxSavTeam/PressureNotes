@@ -81,7 +81,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/comment_edit_text"
             android:hint="@string/comment"
-            android:inputType="textCapSentences"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="4"
             android:gravity="top|start"
             android:minHeight="100dp" />
 
