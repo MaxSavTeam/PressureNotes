@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -20,7 +19,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.maxsavteam.pressurenotes.R;
 import com.maxsavteam.pressurenotes.data.Record;
 import com.maxsavteam.pressurenotes.data.RecordsManager;
-import com.maxsavteam.pressurenotes.ui.widget.InputEditText;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -33,30 +31,30 @@ public class RecordEditorActivity extends AppCompatActivity {
 
 	private boolean isArrhythmia = false;
 
-	private Pair<Boolean, String> validateSys(String s) {
-		if ( s.isEmpty() ) {
+	private Pair<Boolean, String> validateSys(Editable e) {
+		if ( e == null || e.length() == 0 ) {
 			return new Pair<>( false, getString( R.string.should_not_be_empty ) );
 		}
-		int i = Integer.parseInt( s );
+		int i = Integer.parseInt( e.toString() );
 		if ( i > 200 ) {
 			return new Pair<>( false, getString( R.string.too_big_value ) );
 		}
 		return new Pair<>( true, null );
 	}
 
-	private Pair<Boolean, String> validateDia(String s) {
-		if ( s.isEmpty() ) {
+	private Pair<Boolean, String> validateDia(Editable e) {
+		if ( e == null || e.length() == 0 ) {
 			return new Pair<>( false, getString( R.string.should_not_be_empty ) );
 		}
-		int i = Integer.parseInt( s );
+		int i = Integer.parseInt( e.toString() );
 		if ( i > 130 ) {
 			return new Pair<>( false, getString( R.string.too_big_value ) );
 		}
 		return new Pair<>( true, null );
 	}
 
-	private Pair<Boolean, String> validatePulse(String s) {
-		if ( s.isEmpty() ) {
+	private Pair<Boolean, String> validatePulse(Editable e) {
+		if ( e == null || e.length() == 0 ) {
 			return new Pair<>( false, getString( R.string.should_not_be_empty ) );
 		}
 		return new Pair<>( true, null );
@@ -94,9 +92,9 @@ public class RecordEditorActivity extends AppCompatActivity {
 			updateArrhythmiaButtonState();
 		} );
 
-		InputEditText sysEditText = findViewById( R.id.sys_edit_text );
-		InputEditText diaEditText = findViewById( R.id.dia_edit_text );
-		InputEditText pulseEditText = findViewById( R.id.pulse_edit_text );
+		TextInputEditText sysEditText = findViewById( R.id.sys_edit_text );
+		TextInputEditText diaEditText = findViewById( R.id.dia_edit_text );
+		TextInputEditText pulseEditText = findViewById( R.id.pulse_edit_text );
 		TextInputEditText commentEditText = findViewById( R.id.comment_edit_text );
 
 		int editingRecordId = getIntent().getIntExtra( "record_id", -1 );
@@ -131,22 +129,19 @@ public class RecordEditorActivity extends AppCompatActivity {
 		btn.setOnClickListener( v->{
 			boolean isValid = true;
 
-			String s = sysEditText.getText().toString();
-			Pair<Boolean, String> p = validateSys( s );
+			Pair<Boolean, String> p = validateSys( sysEditText.getText() );
 			if ( !p.first ) {
 				sysEditText.setError( p.second );
 				isValid = false;
 			}
 
-			s = diaEditText.getText().toString();
-			p = validateDia( s );
+			p = validateDia( diaEditText.getText() );
 			if ( !p.first ) {
 				diaEditText.setError( p.second );
 				isValid = false;
 			}
 
-			s = pulseEditText.getText().toString();
-			p = validatePulse( s );
+			p = validatePulse( pulseEditText.getText() );
 			if ( !p.first ) {
 				pulseEditText.setError( p.second );
 				isValid = false;
