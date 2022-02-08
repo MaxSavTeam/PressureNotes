@@ -5,15 +5,18 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.maxsavteam.pressurenotes.R;
 import com.maxsavteam.pressurenotes.data.Record;
 import com.maxsavteam.pressurenotes.data.RecordsManager;
@@ -94,6 +97,7 @@ public class RecordEditorActivity extends AppCompatActivity {
 		InputEditText sysEditText = findViewById( R.id.sys_edit_text );
 		InputEditText diaEditText = findViewById( R.id.dia_edit_text );
 		InputEditText pulseEditText = findViewById( R.id.pulse_edit_text );
+		TextInputEditText commentEditText = findViewById( R.id.comment_edit_text );
 
 		int editingRecordId = getIntent().getIntExtra( "record_id", -1 );
 		Record editingRecord;
@@ -112,6 +116,7 @@ public class RecordEditorActivity extends AppCompatActivity {
 			sysEditText.setText( String.valueOf( editingRecord.getSystolicPressure() ) );
 			diaEditText.setText( String.valueOf( editingRecord.getDiastolicPressure() ) );
 			pulseEditText.setText( String.valueOf( editingRecord.getPulse() ) );
+			commentEditText.setText( editingRecord.getComment() );
 
 			isArrhythmia = editingRecord.isArrhythmia();
 			updateArrhythmiaButtonState();
@@ -152,6 +157,12 @@ public class RecordEditorActivity extends AppCompatActivity {
 				int dia = Integer.parseInt( diaEditText.getText().toString() );
 				int pulse = Integer.parseInt( pulseEditText.getText().toString() );
 
+				String comment = null;
+				Editable e = commentEditText.getText();
+				if(e != null){
+					comment = e.toString().trim();
+				}
+
 				boolean isTimeChanged = false;
 				Record record;
 				if(editingRecord != null) {
@@ -164,6 +175,7 @@ public class RecordEditorActivity extends AppCompatActivity {
 				record.setPulse( pulse );
 				record.setMeasureTime( selectedTime );
 				record.setArrhythmia( isArrhythmia );
+				record.setComment( comment );
 
 				if(editingRecord == null) {
 					RecordsManager.getInstance()

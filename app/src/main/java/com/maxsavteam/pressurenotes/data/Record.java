@@ -3,6 +3,7 @@ package com.maxsavteam.pressurenotes.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Record {
@@ -16,6 +17,7 @@ public class Record {
 	private int pulse;
 	private long measureTime;
 	private boolean isArrhythmia;
+	private String comment;
 
 	public Record(){
 		id = nextId.incrementAndGet();
@@ -28,6 +30,7 @@ public class Record {
 		this.pulse = other.pulse;
 		this.measureTime = other.measureTime;
 		this.isArrhythmia = other.isArrhythmia;
+		this.comment = other.comment;
 	}
 
 	public int getId() {
@@ -74,13 +77,22 @@ public class Record {
 		isArrhythmia = arrhythmia;
 	}
 
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public JSONObject getJSON() throws JSONException {
 		return new JSONObject()
 				.put( "sys", systolicPressure )
 				.put( "dia", diastolicPressure )
 				.put( "pulse", pulse )
 				.put( "measure_time", measureTime )
-				.put( "arrhythmia", isArrhythmia );
+				.put( "arrhythmia", isArrhythmia )
+				.put( "comment", comment );
 	}
 
 	@Override
@@ -106,7 +118,10 @@ public class Record {
 		if ( measureTime != record.measureTime ) {
 			return false;
 		}
-		return isArrhythmia == record.isArrhythmia;
+		if ( isArrhythmia != record.isArrhythmia ) {
+			return false;
+		}
+		return comment != null ? comment.equals( record.comment ) : record.comment == null;
 	}
 
 	@Override
@@ -116,6 +131,7 @@ public class Record {
 		result = 31 * result + pulse;
 		result = 31 * result + (int) ( measureTime ^ ( measureTime >>> 32 ) );
 		result = 31 * result + ( isArrhythmia ? 1 : 0 );
+		result = 31 * result + ( comment != null ? comment.hashCode() : 0 );
 		return result;
 	}
 }

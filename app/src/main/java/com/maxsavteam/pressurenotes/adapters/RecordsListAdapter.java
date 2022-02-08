@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,6 +58,13 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		holder.diaIndicator.setBackgroundColor( context.getColor( ColorsLevelResolver.getColorForDia( record.getDiastolicPressure() ) ) );
 
 		holder.arrhythmiaImageView.setVisibility( record.isArrhythmia() ? View.VISIBLE : View.GONE );
+
+		if ( record.getComment() == null || record.getComment().isEmpty() ) {
+			holder.commentLayout.setVisibility( View.GONE );
+		} else {
+			holder.commentLayout.setVisibility( View.VISIBLE );
+			holder.commentTextView.setText(record.getComment());
+		}
 	}
 
 	@Override
@@ -105,16 +113,17 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		result.dispatchUpdatesTo( this );
 	}
 
-	private ArrayList<Record> deepCopy(ArrayList<Record> data){
+	private ArrayList<Record> deepCopy(ArrayList<Record> data) {
 		ArrayList<Record> arrayList = new ArrayList<>();
-		for(Record r : data)
-			arrayList.add( new Record(r) );
+		for (Record r : data)
+			arrayList.add( new Record( r ) );
 		return arrayList;
 	}
 
-	public void updateRecordWithId(int id) {
+	public void updateRecord(Record newRecord) {
 		for (int i = 0; i < records.size(); i++)
-			if ( records.get( i ).getId() == id ) {
+			if ( records.get( i ).getId() == newRecord.getId() ) {
+				records.set( i, new Record( newRecord ) );
 				notifyItemChanged( i );
 				break;
 			}
@@ -135,6 +144,9 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 		public final ImageView arrhythmiaImageView;
 		public final ImageButton moreButton;
 
+		public final TextView commentTextView;
+		public final LinearLayout commentLayout;
+
 		public ViewHolder(@NonNull View itemView) {
 			super( itemView );
 
@@ -144,6 +156,9 @@ public class RecordsListAdapter extends RecyclerView.Adapter<RecordsListAdapter.
 
 			sysIndicator = itemView.findViewById( R.id.item_sys_indicator );
 			diaIndicator = itemView.findViewById( R.id.item_dia_indicator );
+
+			commentTextView = itemView.findViewById( R.id.item_comment );
+			commentLayout = itemView.findViewById( R.id.item_comment_layout );
 
 			time = itemView.findViewById( R.id.item_time );
 

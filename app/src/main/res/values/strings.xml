@@ -41,4 +41,6 @@
     <string name="there_is_no_records">There is no records</string>
     <string name="arrhythmia">Arrhythmia</string>
     <string name="edit">Edit</string>
+    <string name="comment">Comment</string>
+    <string name="comment_with_colon">Comment:</string>
 </resources>

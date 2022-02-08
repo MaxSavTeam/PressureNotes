@@ -44,7 +44,9 @@ public class RecordsActivity extends AppCompatActivity {
 						// position of record have changed
 						recordsListAdapter.update( RecordsManager.getRecords() );
 					}else{
-						recordsListAdapter.updateRecordWithId( data.getIntExtra( "record_id", 0 ) );
+						RecordsManager.getInstance()
+								.findRecordWithId( data.getIntExtra( "record_id", 0 ) )
+										.ifPresent( recordsListAdapter::updateRecord );
 					}
 				}
 			}

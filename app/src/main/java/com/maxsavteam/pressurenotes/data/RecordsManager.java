@@ -59,6 +59,7 @@ public class RecordsManager {
 				record.setPulse( recordObject.getInt( "pulse" ) );
 				record.setMeasureTime( recordObject.getLong( "measure_time" ) );
 				record.setArrhythmia( recordObject.optBoolean( "arrhythmia", false ) );
+				record.setComment( recordObject.optString( "comment", "" ) );
 
 				this.records.add( record );
 			}

@@ -38,4 +38,6 @@
     <string name="there_is_no_records">Список пуст</string>
     <string name="arrhythmia">Аритмия</string>
     <string name="edit">Редактировать</string>
+    <string name="comment">Комментарий</string>
+    <string name="comment_with_colon">Комментарий:</string>
 </resources>
