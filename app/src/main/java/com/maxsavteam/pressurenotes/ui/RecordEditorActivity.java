@@ -147,16 +147,18 @@ public class RecordEditorActivity extends AppCompatActivity {
 				isValid = false;
 			}
 
+			String comment = null;
+			Editable e = commentEditText.getText();
+			if(e != null){
+				comment = e.toString().trim();
+				if(comment.length() > 128)
+					isValid = false;
+			}
+
 			if ( isValid ) {
 				int sys = Integer.parseInt( sysEditText.getText().toString() );
 				int dia = Integer.parseInt( diaEditText.getText().toString() );
 				int pulse = Integer.parseInt( pulseEditText.getText().toString() );
-
-				String comment = null;
-				Editable e = commentEditText.getText();
-				if(e != null){
-					comment = e.toString().trim();
-				}
 
 				boolean isTimeChanged = false;
 				Record record;
