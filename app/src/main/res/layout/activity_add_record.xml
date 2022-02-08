@@ -19,7 +19,7 @@
             android:id="@+id/sys_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
+            android:inputType="number"
             android:hint="@string/systolic_pressure" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -35,7 +35,7 @@
             android:id="@+id/dia_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
+            android:inputType="number"
             android:hint="@string/diastolic_pressure" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -51,7 +51,7 @@
             android:id="@+id/pulse_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
+            android:inputType="number"
             android:hint="@string/pulse" />
 
     </com.google.android.material.textfield.TextInputLayout>
